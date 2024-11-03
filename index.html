@@ -11,16 +11,16 @@
     </style>
 <body>
     <h1>Set timer</h1>
-    <input type="number" id="minutes" placeholder="Minutes" min="0">
-    <input type="number" id="seconds" placeholder="Seconds" min="0" max="59">
+    <input type="number" id="hours" placeholder="Hours" min="0">
+    <input type="number" id="minutes" placeholder="Minutes" min="0" max="59">
     <button id="startButton">Start timer</button>
     <div id="timer"></div>
     <script>
         let timerInterval;
         document.getElementById('startButton').addEventListener('click', function() {
+            const hours = parseInt(document.getElementById('hours').value) || 0;
             const minutes = parseInt(document.getElementById('minutes').value) || 0;
-            const seconds = parseInt(document.getElementById('seconds').value) || 0;
-            let totalTime = minutes * 60 + seconds;
+            let totalTime = hours * 3600 + minutes * 60;
             clearInterval(timerInterval)
             timerInterval = setInterval(() => {
                 if (totalTime <= 0) {
@@ -28,10 +28,11 @@
                     document.getElementById('timer').innerText = "Time is over!"
                     return;
                 }
-                totalTime--;
-                const mins = Math.floor(totalTime / 60);
+                const hours = Math.floor(totalTime / 3600);
+                const mins = Math.floor(totalTime % 3600 / 60)
                 const secs = totalTime % 60
-                document.getElementById('timer').innerText = `${mins} : ${secs < 10 ? '0' : ''}${secs}`;
+                document.getElementById('timer').innerText = `${hours} : ${mins < 10 ? '0' : ''}${mins} : ${secs < 10 ? '0' : ''}${secs}`;
+                totalTime--;
             }, 1000);
         });
     </script>
