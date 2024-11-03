@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlarmWOW</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px }
+        input { width: 100px; }
+        #timer { font-size: 2em; margin-top: 20px; }
+    </style>
+<body>
+    <h1>Set timer</h1>
+    <input type="number" id="minutes" placeholder="Minutes" min="0">
+    <input type="number" id="seconds" placeholder="Seconds" min="0" max="59">
+    <button id="startButton">Start timer</button>
+    <div id="timer"></div>
+    <script>
+        let timerInterval;
+        document.getElementById('startButton').addEventListener('click', function() {
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('seconds').value) || 0;
+            let totalTime = minutes * 60 + seconds;
+            clearInterval(timerInterval)
+            timerInterval = setInterval(() => {
+                if (totalTime <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer').innerText = "Time is over!"
+                    return;
+                }
+                totalTime--;
+                const mins = Math.floor(totalTime / 60);
+                const secs = totalTime % 60
+                document.getElementById('timer').innerText = `${mins} : ${secs < 10 ? '0' : ''}${secs}`;
+            }, 1000);
+        });
+    </script>
+</body>
+</head>
+</html>
