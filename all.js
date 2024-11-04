@@ -5,7 +5,11 @@ let isPaused = false;
 document.getElementById('startButton').addEventListener('click', function() {
     const hours = parseInt(document.getElementById('hours').value) || 0;
     const minutes = parseInt(document.getElementById('minutes').value) || 0;
+    const timerName = document.getElementById('nameOfTimer').value || "Timer";
     totalTime = hours * 3600 + minutes * 60;
+
+    document.getElementById('timerName').innerText = timerName
+
     clearInterval(timerInterval)
     startTimer();
 });
