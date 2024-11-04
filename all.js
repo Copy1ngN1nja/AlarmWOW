@@ -2,11 +2,18 @@ let timerInterval;
 let totalTime = 0;
 let isPaused = false;
 
+function requestNotificationPermission() {
+    if (Notification.permission != "granted") {
+        Notification.requestPermission()
+    }
+}
+
 document.getElementById('startButton').addEventListener('click', function() {
     const hours = parseInt(document.getElementById('hours').value) || 0;
     const minutes = parseInt(document.getElementById('minutes').value) || 0;
+    const seconds = parseInt(document.getElementById('seconds').value) || 0;
     const timerName = document.getElementById('nameOfTimer').value || "Timer";
-    totalTime = hours * 3600 + minutes * 60;
+    totalTime = hours * 3600 + minutes * 60 + seconds;
 
     document.getElementById('timerName').innerText = timerName
 
@@ -30,6 +37,7 @@ function startTimer() {
         if (totalTime <= 0) {
             clearInterval(timerInterval);
             document.getElementById('timer').innerText = "Time is over!";
+            sendNotification();
             return;
         }
         const hours = Math.floor(totalTime / 3600);
@@ -40,3 +48,12 @@ function startTimer() {
         totalTime--;
     }, 1000);
 }
+
+function sendNotification() {
+    const timerName = document.getElementById('nameOfTimer').value || "Timer";
+    const notificaton = new Notification(`${timerName} is done!`, {
+        icon: "https//via.placeholder.com/128"
+    });
+}
+
+document.addEventListener('DOMContentLoaded', requestNotificationPermission);
